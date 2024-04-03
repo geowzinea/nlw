@@ -16,6 +16,7 @@ def test_insert_event():
     events_repository = EventsRepository()
     response = events_repository.insert_event(event)
     print(response)
+    
 @pytest.mark.skip(reason="Não necessita")
 def test_get_event_by_id():
     event_id = "meu-uuid-e-nois2"
