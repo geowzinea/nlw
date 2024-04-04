@@ -1,2 +1,2 @@
 # nlw
-Projeto NLW UNITE da Rockseat
+Projeto NLW UNITE da Rocketseat
