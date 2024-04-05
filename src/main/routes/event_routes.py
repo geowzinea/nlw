@@ -9,7 +9,6 @@ def create_event():
     http_request = HttpRequest(body=request.json)
     event_handler = EventHandler()
 
-
     http_response = event_handler.register(http_request)
     return jsonify(http_response.body), http_response.status_code
 
