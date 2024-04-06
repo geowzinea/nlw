@@ -5,32 +5,30 @@ from src.models.entities.check_ins import CheckIns
 from src.models.entities.events import Events
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import NoResultFound
-
+from src.errors.error_types.http_conflict import HttpConflictError
 
 class AttendeesRepository:
-    def insert_attendee(self, attendee_info: Dict) -> Dict:
+    def insert_attendee(self, attendde_info: Dict) -> Dict:
         with db_connection_handler as database:
             try:
                 attendee = (
                     Attendees(
-                        id=attendee_info.get("uuid"),
-                        name=attendee_info.get("name"),
-                        email=attendee_info.get("email"),
-                        event_id=attendee_info.get("event_id")
-
+                        id=attendde_info.get("uuid"),
+                        name=attendde_info.get("name"),
+                        email=attendde_info.get("email"),
+                        event_id=attendde_info.get("event_id")
                     )
                 )
-
                 database.session.add(attendee)
                 database.session.commit()
 
-                return attendee_info
+                return attendde_info
             except IntegrityError:
-                raise Exception('Participante ja cadastrado')
+                raise HttpConflictError('Participante ja cadastrado!')
             except Exception as exception:
                 database.session.rollback()
                 raise exception
-    
+
     def get_attendee_badge_by_id(self, attendee_id: str):
         with db_connection_handler as database:
             try:
@@ -47,8 +45,8 @@ class AttendeesRepository:
                         .one()
                 )
                 return attendee
-            except Exception as exception:
-                pass
+            except NoResultFound:
+                return None
 
     def get_attendees_by_event_id(self, event_id: str) -> List[Attendees]:
         with db_connection_handler as database:
@@ -65,7 +63,5 @@ class AttendeesRepository:
                         Attendees.created_at.label('createdAt')
                     )
                     .all()
-
             )
-
             return attendees
