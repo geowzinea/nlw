@@ -2,7 +2,7 @@ from src.models.settings.base import Base
 from sqlalchemy import Column, String, Integer, DateTime, ForeignKey
 from sqlalchemy.sql import func
 
-class CheckIn(Base):
+class CheckIns(Base):
     __tablename__ = "check_ins"
 
     id = Column(Integer, primary_key=True)
